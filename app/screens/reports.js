@@ -61,6 +61,28 @@ class Reports extends React.Component {
       </View>
     );
 
+    const total = (
+      <View style={{ flex: 1, padding: 10, marginBottom: 25, flexDirection: 'column', backgroundColor: '#e6f2ff' }}>
+        <Text style={styles.totalTitle}>TOTAL</Text>
+          <View style={{ flex: 1, flexDirection: 'row' }}>
+            <View style={{ flex: 1, flexDirection: 'column' }}>
+              <Text style={styles.totalDesc}>CURRENT BALANCE</Text>
+              <Text>{this.state.api.ending_balance}</Text>
+            </View>
+
+            <View style={{ flex: 1, flexDirection: 'column' }}>
+              <Text style={styles.totalDesc}>TOTAL PERFORMANCE</Text>
+              <Text>{this.state.api.total_performance}</Text>
+            </View>
+
+            <View style={{ flex: 1, flexDirection: 'column' }}>
+              <Text style={styles.totalDesc}>QUARTERLY PERFORMANCE</Text>
+              <Text>{this.state.api.quarterly_performance}</Text>
+            </View>
+          </View>
+      </View>
+    );
+
     return (
       <View style={{ flex: 1, flexDirection: 'column' }}>
         { header }
@@ -71,6 +93,7 @@ class Reports extends React.Component {
           { summary }
           { assetMix }
           { portfolio }
+          { total }
         </ScrollView>
 
       </View>
@@ -105,6 +128,21 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'black',
     textAlign: 'center'
+  },
+  resultsTotal: {
+    fontSize: 15,
+    fontWeight: 'bold'
+  },
+  totalTitle: {
+    fontSize: 15,
+    color: '#000080',
+    paddingBottom: 10
+  },
+  totalDesc: {
+    fontSize: 8,
+    textAlignVertical: 'top',
+    color: '#000080',
+    paddingBottom: 5
   },
 });
 
