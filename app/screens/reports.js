@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, ScrollView, View, Text } from 'react-native';
 import { Header } from 'react-native-elements';
 import Dropdown from './../components/dropdown.js';
+import Portfolio from './../components/portfolio.js';
 
 class Reports extends React.Component {
   state = {
@@ -53,6 +54,13 @@ class Reports extends React.Component {
       </View>
     );
 
+    const portfolio = (
+      <View>
+        <Text style={styles.title}>Assets</Text>
+        { this.state.loading ? '' : this.state.api.portfolio.map(p => <Portfolio key={p.ticker} asset={p}></Portfolio>)}
+      </View>
+    );
+
     return (
       <View style={{ flex: 1, flexDirection: 'column' }}>
         { header }
@@ -61,6 +69,8 @@ class Reports extends React.Component {
         <ScrollView style={ styles.resultsBody }>
           <Text style={ styles.resultsTitle }>Q1 2017 Statement (Sep-Dec)</Text>
           { summary }
+          { assetMix }
+          { portfolio }
         </ScrollView>
 
       </View>
@@ -90,6 +100,11 @@ const styles = StyleSheet.create({
   resultsTitle: {
     fontSize: 18,
     color: '#000080',
+  },
+  summaryBalances: {
+    fontWeight: 'bold',
+    color: 'black',
+    textAlign: 'center'
   },
 });
 
