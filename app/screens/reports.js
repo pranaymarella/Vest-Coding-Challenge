@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, ScrollView, View, Text } from 'react-native';
+import { ActivityIndicator, StyleSheet, ScrollView, View, Text } from 'react-native';
 import { Header } from 'react-native-elements';
 import Dropdown from './../components/dropdown.js';
 import Portfolio from './../components/portfolio.js';
@@ -83,19 +83,68 @@ class Reports extends React.Component {
       </View>
     );
 
+    const transactions = (
+      <View style={{ paddingBottom: 20 }}>
+        <Text style={styles.title}>Transactions</Text>
+        <View style={{ flex: 1, flexDirection: 'row'}}>
+          <View style={{ flex: 1, flexDirection: 'column'}}>
+            <Text style={styles.transDesc}>TYPE</Text>
+          </View>
+          <View style={{ flex: 1, flexDirection: 'column'}}>
+            <Text style={styles.transDesc}>DATE</Text>
+          </View>
+          <View style={{ flex: 1, flexDirection: 'column'}}>
+            <Text style={styles.transDesc}>AMOUNT</Text>
+          </View>
+          <View style={{ flex: 1, flexDirection: 'column'}}>
+            <Text style={styles.transDesc}>NOTES</Text>
+          </View>
+        </View>
+
+        { this.state.loading ? '' :
+          this.state.api.transactions_list.map((p, index) =>
+            <View key={index} style={{ flex: 1, flexDirection: 'row'}}>
+              <View style={{ flex: 1, flexDirection: 'column'}}>
+                <Text style={styles.transData}>{p.action}</Text>
+              </View>
+              <View style={{ flex: 1, flexDirection: 'column'}}>
+                <Text style={styles.transData}>{p.date}</Text>
+              </View>
+              <View style={{ flex: 1, flexDirection: 'column'}}>
+                <Text style={styles.transData}>{p.amount}</Text>
+              </View>
+              <View style={{ flex: 1, flexDirection: 'column'}}>
+                <Text style={styles.transData}>{p.quantity != "" ? p.quantity : '/'}</Text>
+              </View>
+            </View>
+          )
+        }
+      </View>
+    );
+
+    const body = (
+      <ScrollView style={ styles.resultsBody }>
+        <Text style={ styles.resultsTitle }>Q1 2017 Statement (Sep-Dec)</Text>
+        { summary }
+        { assetMix }
+        { portfolio }
+        { total }
+        { transactions }
+
+      </ScrollView>
+    );
+
+    const loading = (
+      <View style={{ flex: 1, justifyContent: 'center' }}>
+        <ActivityIndicator size='large' color='#1999CE'/>
+      </View>
+    );
+
     return (
       <View style={{ flex: 1, flexDirection: 'column' }}>
         { header }
         { timePeriod }
-
-        <ScrollView style={ styles.resultsBody }>
-          <Text style={ styles.resultsTitle }>Q1 2017 Statement (Sep-Dec)</Text>
-          { summary }
-          { assetMix }
-          { portfolio }
-          { total }
-        </ScrollView>
-
+        { this.state.loading ? loading: body }
       </View>
     );
   }
@@ -144,6 +193,14 @@ const styles = StyleSheet.create({
     color: '#000080',
     paddingBottom: 5
   },
+  transDesc: {
+    fontSize: 12,
+    color: '#000080',
+  },
+  transData: {
+    paddingTop: 7,
+    paddingBottom: 7,
+  }
 });
 
 export default Reports;
